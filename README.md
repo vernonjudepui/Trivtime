@@ -1,0 +1,2 @@
+# Trivtime
+CS PROJECT UWU
