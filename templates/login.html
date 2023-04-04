@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--Creates a login form. 
+    action attribute defines the action to be performed when the form is submitted. 
+    method attribute specifies the HTTP method to be used when submitting the form data.-->
+<form action="{{ url_for('login') }}" method="post"  class="was-validated">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-6">
+          <h1 class="display-6 my-5">Login</h1>
+          {% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+  {% for message in messages %}
+    {{ message }}
+  {% endfor %}
+</div>    
+{% endif %}
+{% endwith %}
+          <form>
+            <div class="form-floating mb-4">
+              <!--Create a textbox for username. Validation is set to required. -->
+              <input type="text" class="form-control" name="username" placeholder="Username" id="username" required>
+              <label for="username">Username</label>
+            </div>
+            <div class="form-floating mb-4">
+              <!--Create a password field for password. Validation is set to required. -->
+              <input type="password" class="form-control" name="password" placeholder="Password" id="password" required>
+              <label for="password">Password</label>
+
+              <!-- Display error messages if any e.g. invalid user. -->
+              <div class="invalid-feedback">
+                {{ msg }}
+              </div>
+            </div>
+            <div class="row my-5">
+              <div class="col">
+                <!--Create a Login button of type submit. -->
+                <input type="submit" value="Login" class="btn btn-lg btn-primary w-75">
+              </div>
+              
+              </div>
+              <!--Link to register if user does not have an account. -->
+              Don't have an account? <a href="{{ url_for('register') }}"> Register now!</a>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+    </form>
+   
+    {% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row flex-lg-row-reverse align-items-center justify-content-center my-5">
+        <div class="col-xl-5 col-lg-6">
+            <h1 class="display-5 fw-bold">My Profile</h1>
+            <p>Your account details are below:</p> 
+               
+                 <h2> Username: {{ session["username"] }} </h2>
+                </div>
+              </div>  
+      
+              
+      </div>  
+                 <form action="{{ url_for('profile') }}" method="post"  class="was-validated">
+                  <div class="container">
+                    <div class="row justify-content-center text-center">
+                      <div class="col-lg-6">
+                 {% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+  {% for message in messages %}
+    {{ message }}
+  {% endfor %}
+</div>    
+{% endif %}
+{% endwith %}
+                 <form>
+                    <div class="invalid-feedback">
+                        {{ msg }}
+                      </div>
+                    <div class="form-floating mb-4">
+                      <!--Create a textbox for username. Validation is set to required. -->
+                      <input type="text" class="form-control" name="email" placeholder="email" id="email" value = "{{session['email']}}" required>
+                      <label for="email">Email</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                      <!--Create a password field for password. Validation is set to required. -->
+                      <input type="password" class="form-control" name="password" placeholder="password" id="password" required>
+                      <label for="password">Enter new Password to Update</label>
+        
+                      <!-- Display error messages if any e.g. invalid user. -->
+                      
+                    </div>
+                    <div class="row my-5">
+                      <div class="col">
+                        
+                        <input type="submit" value="Update" class="btn btn-lg btn-primary w-75">
+                      </div>
+                      
+                      </div>
+                      <!--Link to register if user does not have an account. -->
+                      
+                  
+                    
+                  </form>
+                 
+                </div>
+              </div>
+            </div>
+            </form>
+        
+  
+
+{% endblock %}

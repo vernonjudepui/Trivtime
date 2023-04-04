@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container py-5">
+      <div class="row">
+        <form action="{{ url_for('search') }}" method="post"  class="was-validated">
+        <div class="col-6 col-md-4">
+
+          <select class="form-select" id = "category" name = "category">
+            {% for field in fields %}
+            <option value = "{{field}}">Search by {{field}}</option>
+
+            {% endfor %}
+          </select> 
+        </div>
+        <div class="col-6 col-md-8">
+          <div class="input-group">
+            <input name = "search" type="text" id= "search" class="form-control" placeholder="Search">
+            
+              <input type="submit" value="search" class="btn btn-lg btn-secondary w-30">
+
+          </div>
+        </div>
+      </form>
+      </div>
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Question</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Difficulty</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for question in questions %}
+          <tr>
+            <th>{{question['QuestionText']}}</th>
+            <th>{{question['Qtype']}}</th>
+            <th>{{question['Category']}}</th>
+          
+            <th>{% for i in range(question['Difficulty']) %} <i class="bi bi-star-fill"></i>{% endfor %}</th>
+
+          </tr>
+       
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+
+    {% endblock %}

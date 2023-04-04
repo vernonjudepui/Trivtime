@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--Creates a register form. The code is largely similar to login.html, except an additional email field. -->
+<form action="{{ url_for('register') }}" method="post"  class="was-validated">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-6">
+        <h1 class="display-6 my-5">Register</h1>
+        <form>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <div class="alert alert-danger" role="alert">
+            {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+          </div>    
+          {% endif %}
+          {% endwith %}
+          <div class="form-floating mb-4">
+            <input type="text" class="form-control" name="username" placeholder="Username" id="username" required >
+            <label for="username">Username</label>
+          </div>
+          <div class="form-floating mb-4">
+            <input type="password" class="form-control" name="password" placeholder="Password" id="password" required>
+            <label for="password">Password</label>
+          </div>
+          <div class="form-floating mb-4">
+            <!--Create a email field for email. Validation is set to required. 
+            The <input type="email"> will ensure the input value is validated to ensure it is a properly formatted e-mail address-->
+            <input type="email" class="form-control" name="email" placeholder="Email" id="email" required>
+            <label for="username">Email</label>
+            
+            <div class="invalid-feedback">
+              {{ msg }}
+            </div>
+          </div>
+    
+          <div class="row my-5">
+            <div class="col">
+              <input type="submit" value="Register" class="btn btn-lg btn-secondary w-75">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </form>
+ 
+
+    {% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row flex-lg-row-reverse align-items-center justify-content-center my-5">
+            <div class="col-xl-5 col-lg-6 text-center">
+                <img src="static/clip.png" alt="Triv" class="img-fluid" width="400" height="300">
+            </div>
+            <div class="col-xl-5 col-lg-6">
+                <h1 class = "fw-bold" > {% if session['username'] %}  Hi {{ session['username'] }} ! {% endif %}</h1>
+                <h1 class="display-5 fw-bold">Triv on!</h1>
+                <p class="lead">
+                    Level: {{ session['LVL'] }} <br>
+                    ELO: {{ session['elo'] }} 
+                </p>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
