@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid ps-md-0">
+    <div class="row g-0">
+      <div class="d-none d-md-flex col-md-4 col-lg-6">
+        
+            <div class= "row">
+                <h1 class = "fontnice">ROOM ID: {{session['room']}}</h1>
+            </div>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Player</th>
+                    <th>Level</th>
+                    <th>Elo</th>
+                    <th>Host</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for player in players %}
+                  <tr>
+                    <th>{{player['UserName']}}</th>
+                    <th>{{player['LVL']}}</th>
+                    <th>{{player['Elo']}}</th>
+                  
+                    <th>{% if host==player['USERID'] %} True {% else %} False {% endif %}</th>
+        
+                  </tr>
+               
+                  {% endfor %}
+                </tbody>
+              </table>
+      </div>
+      <form action="{{ url_for('game') }}" method="post"  class="was-validated">
+        <div class="col-md-8 col-lg-6">
+        <div class="login d-flex align-items-center py-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-9 col-lg-8 mx-auto">
+                <h3 class="login-heading mb-4 fontnice">{{session['room'] }}</h3>
+  
+                <!-- Sign In Form -->
+                <form>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-mdb-toggle="dropdown" aria-expanded="false">
+                        Difficulty
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" id="Checkme1" />
+                                        <label class="form-check-label" for="Checkme1">Easy</label>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="2" id="Checkme2" />
+                                        <label class="form-check-label" for="Checkme2">Medium</label>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="3" id="Checkme3" />
+                                        <label class="form-check-label" for="Checkme3">Hard</label>
+                                    </div>
+                                </a>
+                            </li>
+      
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="4" id="Checkme4" checked />
+                                        <label class="form-check-label" for="Checkme4">Insane</label>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2"
+                        data-mdb-toggle="dropdown" aria-expanded="false">
+                        Category
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for cat in category}
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{cat}}" id="{{cat}}" />
+                                        <label class="form-check-label" for="{{cat}}">{{cat}}</label>
+                                    </div>
+                                </a>
+                            </li>
+                            {% endfor %}
+                            
+      
+                            
+                        </ul>
+                    </div>
+                    <div class="d-grid">
+                        <input type="number" value="1" min="1" max="100" step="1" id="numQ" name = "numQ" required>
+     
+
+                      </div>
+
+                  <div class="d-grid">
+                    <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Start Game</button>
+                    
+                  </div>
+  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

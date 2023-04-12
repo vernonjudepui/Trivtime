@@ -52,6 +52,7 @@ def login():
             session['email'] = account['EMAIL']
             session["LVL"] = account['LVL']
             session['elo'] = account['Elo']
+            session['room'] = 0
             # redirect user to home page for successful login
             return redirect(url_for('home'))
         else:
@@ -158,5 +159,59 @@ def search():
         return render_template('search.html',questions=questions,fields = fields) #pass books data to search.html
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+@app.route('/play',methods = ['GET','POST'])
+def play():
+    if 'loggedin' in session:
+        
+        return render_template('play.html')
+    return render_template('login.html')
+@app.route('/room',methods = ['GET','POST'])
+def room():
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            return render_template('room.html')
+        return render_template('room.html')
+        
+    return render_template('login.html')
+@app.route('/room/create',methods = ['GET','POST'])
+def create():
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            id = request.form.get("id")
+            num = request.form.get("num")
+            print(request.form)
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute("INSERT INTO ROOM VALUES (NULL, %s , %s, %s,1)", (id,session['id'],num,))
+            mysql.connection.commit()
+            cursor.execute('SELECT MAX(ROOMID) FROM ROOM')
+            ROOMID = cursor.fetchone()
+            session['room'] = int(ROOMID)
+            checkROOM();
+            cursor.execute("INSERT INTO JOINEDROOM VALUES (NULL,%s,%s)",(session["id"],ROOMID,))
+
+            players = selectAllPlayers(ROOMID);
+            cursor.execute("Select DISTINCT CATEGORY FROM QUESTION")
+            category = cursor.fetchall()
+            return render_template("inRoom.html" ,players = players,host = session['id'], category = category)
+            
+        else:
+            return render_template('create.html')
+    return render_template('login.html')
+def checkROOM():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("DELETE * FROM JOINEDROOM WHERE USERID = &s", (session["id"],))
+    mysql.connection.commit()
+    cursor.close()
+    return
+def selectAllPlayers(ROOMID):
+    cursor =  mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM USER WHERE USERID in (Select USERID from joinedroom where ROOMID = &s",(ROOMID,) )
+    p = cursor.fetchall()
+    cursor.close()
+    return p
+@app.route('/game',methods = ['GET','POST'])
+def game():
+
+    return render_template('game.html')
 if __name__ == '__main__':
     app.run(debug = True)
