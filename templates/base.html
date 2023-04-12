@@ -53,8 +53,9 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-center  {{  'active' if request.path == url_for('search') }}" href="{{ url_for('search') }}">
-                        <i class="bi bi-search"></i><br>
+                    <a class="nav-link text-center  {{  'active' if request.path == url_for('leaderboard') }}" href="{{ url_for('leaderboard') }}">
+                        <img src="static/lb.png"  class="img-fluid" width="20" height="20">
+                            <br>
                         Leaderboard
                     </a>
                   </li>
@@ -68,6 +69,11 @@
                         <i class="bi bi-person-circle"></i>
                         Profile
                     </a>
+                    <a  class= "nav-link text-center text-black" href="{{ url_for('badges') }}">
+                        <i class="bi bi-patch-check-fill"></i>
+                        Badges and Achievements
+                    </a>
+                  
                   
                   <div class="dropdown-divider"></div>
                  
@@ -82,6 +88,7 @@
                     </a>
                   
                 
+                </div>
                 </div>
                 </ul>
               </div>

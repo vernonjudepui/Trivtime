@@ -213,5 +213,50 @@ def selectAllPlayers(ROOMID):
 def game():
 
     return render_template('game.html')
+@app.route('/leaderboard',methods = ['GET','POST'])
+def leaderboard():
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM USER order by ELO')
+        fields = ["Elo","UserName","LVL","Points"]
+        if request.method == 'POST':
+            category =  request.form.get('category')
+            print(request.form)
+            if category in fields: #check that category is indeed a valid category (prevent SQL injection)
+                search = '%' + request.form['search'] + '%'
+                query = 'SELECT * FROM question WHERE UserName like %s ORDER BY %s' 
+                cursor.execute(query, (search, category,))
+                questions = cursor.fetchall()
+                print(questions)
+                return render_template('search.html',questions=questions,fields = fields)
+         #get all books record from books table
+        User = cursor.fetchall() #fetch all records
+        cursor.close()
+        return render_template('search.html',user = user,fields = fields) #pass books data to search.html
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+@app.route('/badgesAchieve',methods = ['GET','POST'])
+def badges():
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM USER order by ELO')
+        fields = ["Elo","UserName","LVL","Points"]
+        if request.method == 'POST':
+            category =  request.form.get('category')
+            print(request.form)
+            if category in fields: #check that category is indeed a valid category (prevent SQL injection)
+                search = '%' + request.form['search'] + '%'
+                query = 'SELECT * FROM question WHERE UserName like %s ORDER BY %s' 
+                cursor.execute(query, (search, category,))
+                questions = cursor.fetchall()
+                print(questions)
+                return render_template('search.html',questions=questions,fields = fields)
+         #get all books record from books table
+        User = cursor.fetchall() #fetch all records
+        cursor.close()
+        return render_template('search.html',user = user,fields = fields) #pass books data to search.html
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+    
 if __name__ == '__main__':
     app.run(debug = True)
