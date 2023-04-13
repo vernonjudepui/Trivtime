@@ -230,7 +230,7 @@ def leaderboard():
                 print(questions)
                 return render_template('search.html',questions=questions,fields = fields)
          #get all books record from books table
-        User = cursor.fetchall() #fetch all records
+        user = cursor.fetchall() #fetch all records
         cursor.close()
         return render_template('search.html',user = user,fields = fields) #pass books data to search.html
     # User is not loggedin redirect to login page
@@ -239,7 +239,7 @@ def leaderboard():
 def badges():
     if 'loggedin' in session:
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM USER order by ELO')
+        cursor.execute('SELECT B.BID as BID,B.BadgeTItle as Title,B.BadgeDes as Description, U.UserName as Username FROM Badges B, Earns e, User U where U.userID = E.UserID and E.BID = B.BID')
         fields = ["Elo","UserName","LVL","Points"]
         if request.method == 'POST':
             category =  request.form.get('category')
@@ -252,9 +252,9 @@ def badges():
                 print(questions)
                 return render_template('search.html',questions=questions,fields = fields)
          #get all books record from books table
-        User = cursor.fetchall() #fetch all records
+        b = cursor.fetchall() #fetch all records
         cursor.close()
-        return render_template('search.html',user = user,fields = fields) #pass books data to search.html
+        return render_template('search.html',b = b,fields = fields) #pass books data to search.html
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
     

@@ -44,12 +44,7 @@
           <form action="{{ url_for('badge') }}" method="post"  class="was-validated">
           <div class="col-6 col-md-4">
   
-            <select class="form-select" id = "category" name = "category">
-              {% for field in fields %}
-              <option value = "{{field}}">Search by {{field}}</option>
-  
-              {% endfor %}
-            </select> 
+           
           </div>
           <div class="col-6 col-md-8">
             <div class="input-group">
@@ -64,20 +59,20 @@
         <table class="table table-striped">
           <thead class="table-dark">
             <tr>
-              <th>Question</th>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Difficulty</th>
+              <th>Badge Id</th>
+              <th>BadgeTitle</th>
+              <th>BadgeDes</th>
+              <th>BadgeOwner</th>
             </tr>
           </thead>
           <tbody>
-            {% for question in questions %}
+            {% for badge in b %}
             <tr>
-              <th>{{question['QuestionText']}}</th>
-              <th>{{question['Qtype']}}</th>
-              <th>{{question['Category']}}</th>
+              <th>{{badge['BID']}}</th>
+              <th>{{badge['Title']}}</th>
+              <th>{{badge['Description']}}</th>
             
-              <th>{% for i in range(question['Difficulty']) %} <i class="bi bi-star-fill"></i>{% endfor %}</th>
+              <th>{{badge['Username']}}</th>
   
             </tr>
          
