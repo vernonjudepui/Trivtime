@@ -15,6 +15,8 @@
     <script>
         $("input[type='number']").inputSpinner();
     </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
     <title>TrivTime</title>
 </head>
 <body>
@@ -54,7 +56,7 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link text-center  {{  'active' if request.path == url_for('leaderboard') }}" href="{{ url_for('leaderboard') }}">
-                        <img src="static/lb.png"  class="img-fluid" width="20" height="20">
+                        <img src="static/lb.png"  class="img-fluid" width="15" height="15">
                             <br>
                         Leaderboard
                     </a>

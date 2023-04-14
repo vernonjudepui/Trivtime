@@ -209,9 +209,15 @@ def selectAllPlayers(ROOMID):
     p = cursor.fetchall()
     cursor.close()
     return p
+qList = []
 @app.route('/game',methods = ['GET','POST'])
 def game():
-
+    if request.method == "POST":
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        numq = request.form.get("numQ")
+        categories = request.form.get("cate")
+        
+        cursor.execute("")
     return render_template('game.html')
 @app.route('/leaderboard',methods = ['GET','POST'])
 def leaderboard():
@@ -224,15 +230,15 @@ def leaderboard():
             print(request.form)
             if category in fields: #check that category is indeed a valid category (prevent SQL injection)
                 search = '%' + request.form['search'] + '%'
-                query = 'SELECT * FROM question WHERE UserName like %s ORDER BY %s' 
+                query = 'SELECT * FROM USER WHERE UserName like %s ORDER BY %s' 
                 cursor.execute(query, (search, category,))
                 questions = cursor.fetchall()
                 print(questions)
-                return render_template('search.html',questions=questions,fields = fields)
+                return render_template('leaderboard.html',questions=questions,fields = fields)
          #get all books record from books table
         user = cursor.fetchall() #fetch all records
         cursor.close()
-        return render_template('search.html',user = user,fields = fields) #pass books data to search.html
+        return render_template('leaderboard.html',user = user,fields = fields) #pass books data to search.html
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 @app.route('/badgesAchieve',methods = ['GET','POST'])
@@ -240,23 +246,62 @@ def badges():
     if 'loggedin' in session:
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT B.BID as BID,B.BadgeTItle as Title,B.BadgeDes as Description, U.UserName as Username FROM Badges B, Earns e, User U where U.userID = E.UserID and E.BID = B.BID')
-        fields = ["Elo","UserName","LVL","Points"]
-        if request.method == 'POST':
-            category =  request.form.get('category')
-            print(request.form)
-            if category in fields: #check that category is indeed a valid category (prevent SQL injection)
-                search = '%' + request.form['search'] + '%'
-                query = 'SELECT * FROM question WHERE UserName like %s ORDER BY %s' 
-                cursor.execute(query, (search, category,))
-                questions = cursor.fetchall()
-                print(questions)
-                return render_template('search.html',questions=questions,fields = fields)
-         #get all books record from books table
         b = cursor.fetchall() #fetch all records
+        cursor.execute('SELECT A.AID as AID,A.AchieveTitle as Title,A.AchieveDes as Description, A.NumPlayersAwarded as Num FROM Achievements A')
+        
+        a = cursor.fetchall()
+      
+        if request.method == 'POST':
+            if 'search1' in request.form:
+               # category =  request.form.get('category')
+                print(request.form)
+                #check that category is indeed a valid category (prevent SQL injection)
+                search = '%' + request.form['search1'] + '%'
+                query = 'SELECT * FROM Badges WHERE BadgeTitle like %s' 
+                cursor.execute(query, (search,))
+                b = cursor.fetchall()
+                print(b)
+                return render_template('badges.html',b = b,a=a) #pass books data to search.html
+  
+       
+            else:
+               # category =  request.form.get('category')
+                print(request.form)
+                #check that category is indeed a valid category (prevent SQL injection)
+                search = '%' + request.form['search2'] + '%'
+                query = 'SELECT * FROM Achievements WHERE AchieveTitle like %s' 
+                cursor.execute(query, (search, ))
+                a = cursor.fetchall()
+                print(a)
+                
+                return render_template('search.html',questions=questions)
+            #get all books record from books table
         cursor.close()
-        return render_template('search.html',b = b,fields = fields) #pass books data to search.html
+        
+        return render_template('badges.html',b = b,a=a) #pass books data to search.html
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
-    
+@app.route('/delete')
+def delete():
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('Delete from USER where USERID = %s', (session['id'],))
+        session.clear()
+        return render_template('delete.html') 
+    else:
+        return render_template("login.html")
+@app.route('/room/leave')
+def leaveroom():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("select HOST from ROOM where roomID = (select ROOMID from JOINEDROOM where USERID = %s)",(session['id']))
+    a = cursor.fetchone()
+    if int(a) == session['id']:
+        cursor.execute("DELETE FROM JOINEDROOM WHERE ROOMID = (SELECT ROOMID FROM ROOM WHERE HOST = %s)",(a,)) 
+        cursor.execute("Delete from ROOM where HOST = %s",(session['id'],))
+           
+    else:
+        cursor.execute("DELETE FROM JOINEDROOM WHERE USERID = %s",(session["id"]))
+    cursor.close()
+    return play()
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug = True) 

@@ -51,12 +51,40 @@
                       </div>
                       
                       </div>
-                      <!--Link to register if user does not have an account. -->
-                      
-                  
-                    
+                     
                   </form>
                  
+                  <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body mx-3">
+                       Are You Certain?
+                      </div>
+                      <div class="modal-footer d-flex justify-content-center">
+                        <a class="btn btn-primary" role = "button" href="{{url_for('delete')}}" >
+                          Yes
+                      </a>  
+                      
+                      <a class="btn btn-primary btn-close"  data-mdb-dismiss="modal" role = "button" href="#" >
+                        No
+                    </a>  
+                    
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="text-center">
+                  <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                   Delete Account</a>
+                </div>
                 </div>
               </div>
             </div>

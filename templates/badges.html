@@ -48,7 +48,7 @@
           </div>
           <div class="col-6 col-md-8">
             <div class="input-group">
-              <input name = "search" type="text" id= "search" class="form-control" placeholder="Search">
+              <input name = "search1" type="text" id= "search" class="form-control" placeholder="Search">
               
                 <input type="submit" value="search" class="btn btn-lg btn-secondary w-30">
   
@@ -60,9 +60,9 @@
           <thead class="table-dark">
             <tr>
               <th>Badge Id</th>
-              <th>BadgeTitle</th>
-              <th>BadgeDes</th>
-              <th>BadgeOwner</th>
+              <th>Badge Title</th>
+              <th>Badge Description</th>
+              <th>Badge Owner</th>
             </tr>
           </thead>
           <tbody>
@@ -83,7 +83,47 @@
       
     </div>
     <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-      Tab 2 content
+      <div class="container py-5">
+        <div class="row">
+          <form action="{{ url_for('badge') }}" method="post"  class="was-validated">
+          <div class="col-6 col-md-4">
+  
+           
+          </div>
+          <div class="col-6 col-md-8">
+            <div class="input-group">
+              <input name = "search2" type="text" id= "search" class="form-control" placeholder="Search">
+              
+                <input type="submit" value="search" class="btn btn-lg btn-secondary w-30">
+  
+            </div>
+          </div>
+        </form>
+        </div>
+        <table class="table table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>Achievement ID</th>
+              <th>Achievement Title</th>
+              <th>Achievement Description</th>
+              <th>Number of players Achieved</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ach in a %}
+            <tr>
+              <th>{{ach['AID']}}</th>
+              <th>{{ach['Title']}}</th>
+              <th>{{ach['Description']}}</th>
+            
+              <th>{{ach['Num']}}</th>
+  
+            </tr>
+         
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
    
   </div>

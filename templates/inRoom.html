@@ -25,7 +25,7 @@
                     <th>{{player['LVL']}}</th>
                     <th>{{player['Elo']}}</th>
                   
-                    <th>{% if host==player['USERID'] %} True {% else %} False {% endif %}</th>
+                    <th>{% if host==player['USERID'] %} True {% else %}<a> False</a> {% endif %}</th>
         
                   </tr>
                
@@ -52,7 +52,7 @@
                             <li>
                                 <a class="dropdown-item" href="#">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="1" id="Checkme1" />
+                                        <input class="form-check-input" name = "Diff" type="checkbox" value="1" id="Checkme1" />
                                         <label class="form-check-label" for="Checkme1">Easy</label>
                                     </div>
                                 </a>
@@ -60,7 +60,7 @@
                             <li>
                                 <a class="dropdown-item" href="#">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="2" id="Checkme2" />
+                                        <input class="form-check-input" type="checkbox" name = "Diff" value="2" id="Checkme2" />
                                         <label class="form-check-label" for="Checkme2">Medium</label>
                                     </div>
                                 </a>
@@ -68,7 +68,7 @@
                             <li>
                                 <a class="dropdown-item" href="#">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="3" id="Checkme3" />
+                                        <input class="form-check-input" type="checkbox" name = "Diff"  value="3" id="Checkme3" />
                                         <label class="form-check-label" for="Checkme3">Hard</label>
                                     </div>
                                 </a>
@@ -77,7 +77,7 @@
                             <li>
                                 <a class="dropdown-item" href="#">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="4" id="Checkme4" checked />
+                                        <input class="form-check-input" type="checkbox" name = "Diff"  value="4" id="Checkme4" checked />
                                         <label class="form-check-label" for="Checkme4">Insane</label>
                                     </div>
                                 </a>
@@ -94,7 +94,7 @@
                             <li>
                                 <a class="dropdown-item" href="#">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="{{cat}}" id="{{cat}}" />
+                                        <input class="form-check-input" name = "cate" type="checkbox" value="{{cat}}" id="{{cat}}" />
                                         <label class="form-check-label" for="{{cat}}">{{cat}}</label>
                                     </div>
                                 </a>
@@ -117,6 +117,13 @@
                   </div>
   
                 </form>
+                <div class = 'row'>
+                    <a class="btn btn-primary" role = "button" href="{{url_for('leaveroom')}}" >
+                        Leave Room
+                    </a>
+                </div>
+
+
               </div>
             </div>
           </div>
